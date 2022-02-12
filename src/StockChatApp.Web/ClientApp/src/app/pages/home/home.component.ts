@@ -16,9 +16,6 @@ export class HomeComponent {
 
   setUserName() {
     this.dataStoreService.setUserName(this.userName);
-    console.log('\n\n\n setting userName');
-    console.log(this.userName);
-
     this.router.navigate(['/chat']);
   }
 }

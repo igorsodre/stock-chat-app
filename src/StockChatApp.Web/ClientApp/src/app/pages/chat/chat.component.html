@@ -1,1 +1,54 @@
-<h1 id="tableLabel">Chat Room</h1>
+<div class="row clearfix">
+  <div class="col-lg-12">
+    <div class="chat">
+      <div class="chat-header clearfix">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="chat-about text-center">
+              <h6 class="m-b-0">General Chat Room</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-history">
+        <ul class="m-b-0">
+          <li class="clearfix" *ngFor="let message of messages">
+            <div
+              [ngClass]="{
+                'message-data': true,
+                'text-end': isItMe(message.userName)
+              }"
+            >
+              <span class="message-data-time">{{ message.timestamp }}</span>
+              <span *ngIf="!isItMe(message.userName)">
+                | {{ message.userName }}</span
+              >
+            </div>
+            <div
+              class="message"
+              [ngClass]="{
+                'other-message': isItMe(message.userName),
+                'float-right': isItMe(message.userName),
+                'my-message': !isItMe(message.userName)
+              }"
+            >
+              {{ message.content }}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="chat-message clearfix">
+        <div class="input-group mb-0">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="bi bi-send"></i></span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter text here..."
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

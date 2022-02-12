@@ -1,13 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './pages/home/home.component';
 import { ChatComponent } from './pages/chat/chat.component';
-import { AuthGuardGuard } from './guards/auth-guard.guard';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, ChatComponent],
@@ -15,10 +13,7 @@ import { AuthGuardGuard } from './guards/auth-guard.guard';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'chat', component: ChatComponent, canActivate: [AuthGuardGuard] },
-    ]),
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
