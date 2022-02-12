@@ -1,8 +1,9 @@
+using StockChatApp.Web.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllersWithViews();
+builder.Services.InstallServicesInAssembly(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
@@ -16,7 +17,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
+app.UseCors();
 app.MapControllerRoute("default", "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");

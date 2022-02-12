@@ -5,16 +5,18 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 export function getBaseUrl() {
-  return document.getElementsByTagName('base')[0].href;
+  if (environment.production) {
+    return document.getElementsByTagName('base')[0].href;
+  }
+  return environment.baseUrl;
 }
 
-const providers = [
-  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
-];
+const providers = [{ provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }];
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic(providers).bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+platformBrowserDynamic(providers)
+  .bootstrapModule(AppModule)
+  .catch((err) => console.log(err));
