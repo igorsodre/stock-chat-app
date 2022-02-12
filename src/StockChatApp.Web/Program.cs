@@ -1,4 +1,5 @@
 using StockChatApp.Web.Extensions.Configuration;
+using StockChatApp.Web.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ app.UseRouting();
 app.UseCors();
 app.MapControllerRoute("default", "{controller}/{action=Index}/{id?}");
 
+app.MapHub<ChatHub>("/hubs/chat");
 app.MapFallbackToFile("index.html");
 
 app.Run();

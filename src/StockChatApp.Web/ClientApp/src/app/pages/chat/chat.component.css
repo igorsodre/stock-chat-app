@@ -32,6 +32,8 @@ body {
 .chat .chat-history {
   padding: 20px;
   border-bottom: 2px solid #fff;
+  max-height: 80vh;
+  overflow-y: scroll;
 }
 
 .chat .chat-history ul {
@@ -115,6 +117,10 @@ body {
 
 .chat .chat-message {
   padding: 20px;
+}
+
+.chat .input-group-prepend:hover {
+  cursor: pointer;
 }
 
 .online,

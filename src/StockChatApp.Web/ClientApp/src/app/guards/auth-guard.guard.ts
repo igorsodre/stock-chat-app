@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DataStoreService } from '../services/data-store.service';
 
@@ -14,17 +8,9 @@ import { DataStoreService } from '../services/data-store.service';
   providedIn: 'root',
 })
 export class AuthGuardGuard implements CanActivate {
-  /**
-   *
-   */
-  constructor(
-    private dataStoreService: DataStoreService,
-    private router: Router
-  ) {}
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
+  constructor(private dataStoreService: DataStoreService, private router: Router) {}
+
+  canActivate(): Observable<boolean> {
     return this.dataStoreService.accessToken$.pipe(
       map((token) => {
         if (token) return true;

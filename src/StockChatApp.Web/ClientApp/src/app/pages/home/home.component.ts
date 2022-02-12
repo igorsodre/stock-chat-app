@@ -7,10 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  constructor(
-    private dataStoreService: DataStoreService,
-    private router: Router
-  ) {}
+  constructor(private dataStoreService: DataStoreService, private router: Router) {}
 
   userName = '';
 

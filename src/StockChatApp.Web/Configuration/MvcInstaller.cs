@@ -28,5 +28,6 @@ public class MvcInstaller : IServiceInstaller
         }
 
         services.AddControllersWithViews();
+        services.AddSignalR();
     }
 }

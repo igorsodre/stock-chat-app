@@ -7,9 +7,7 @@
     height="72"
   />
   <h2>This is the Stock Chat Application</h2>
-  <p class="lead">
-    Hello, please input your user name to be able to enter the chat
-  </p>
+  <p class="lead">Hello, please input your user name to be able to enter the chat</p>
 </div>
 
 <div class="row g-5 text-center">
@@ -27,6 +25,7 @@
             placeholder="Username"
             required
             [(ngModel)]="userName"
+            (keyup)="$event.keyCode === 13 && setUserName()"
           />
           <div class="invalid-feedback">Your username is required.</div>
         </div>
@@ -34,12 +33,6 @@
     </div>
     <hr class="my-4" />
 
-    <button
-      class="w-100 btn btn-primary btn-lg"
-      type="button"
-      (click)="setUserName()"
-    >
-      Continue to chat room
-    </button>
+    <button class="w-100 btn btn-primary btn-lg" type="button" (click)="setUserName()">Continue to chat room</button>
   </div>
 </div>
