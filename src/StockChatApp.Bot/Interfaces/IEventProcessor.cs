@@ -1,6 +1,6 @@
 namespace StockChatApp.Bot.Interfaces;
 
-public class IEventProcessor
+public interface IEventProcessor
 {
-    
+    Task ProcessEvent(string message);
 }
