@@ -17,7 +17,7 @@ public class MvcInstaller : IServiceInstaller
                 options => {
                     options.AddDefaultPolicy(
                         policyBuilder => {
-                            policyBuilder.WithOrigins(serverSettings.SpaUrl)
+                            policyBuilder.WithOrigins(serverSettings.AllowedUrlOrigins)
                                 .AllowAnyHeader()
                                 .AllowAnyMethod()
                                 .AllowCredentials();
@@ -27,6 +27,7 @@ public class MvcInstaller : IServiceInstaller
             );
         }
 
+        services.AddControllers();
         services.AddControllersWithViews();
         services.AddSignalR();
     }

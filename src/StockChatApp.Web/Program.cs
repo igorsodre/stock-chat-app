@@ -19,9 +19,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors();
-app.MapControllerRoute("default", "{controller}/{action=Index}/{id?}");
 
+app.MapControllers();
 app.MapHub<ChatHub>("/hubs/chat");
+
 app.MapFallbackToFile("index.html");
 
 app.Run();
