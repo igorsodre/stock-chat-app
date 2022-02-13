@@ -29,14 +29,14 @@ public class StockProducer
             .Build();
     }
 
-    public async Task PublishStockMessage(string message)
+    public async Task PublishStockMessage(string message, string connectionId)
     {
         if (IsHubDisconnected())
         {
             await _connection.StartAsync();
         }
 
-        await _connection.InvokeAsync("SendMessage", "[BOT] StockABot", message);
+        await _connection.InvokeAsync("SendMessageToUser", connectionId, "[BOT] StockABot", message);
     }
 
     private bool IsHubDisconnected()

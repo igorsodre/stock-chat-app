@@ -30,6 +30,10 @@ export class ChatService {
     this._connection.invoke('SendMessage', userName, content);
   }
 
+  getConnectionId() {
+    return this._connection?.connectionId || '';
+  }
+
   private async buildConnection() {
     this._connection = new HubConnectionBuilder().withUrl(this.endpoint).build();
     await this._connection.start();

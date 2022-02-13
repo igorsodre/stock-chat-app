@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StockChatApp.Web.Contracts.Api.Requests;
+using StockChatApp.Web.Contracts.Api.Responses;
 using StockChatApp.Web.Contracts.Producers;
 using StockChatApp.Web.Interfaces;
 
@@ -26,11 +27,12 @@ namespace StockChatApp.Web.Controllers
                     Data = new StockRequestDto
                     {
                         Channel = "General Chat",
-                        StockCode = request.Arguments
+                        StockCode = request.Arguments,
+                        ConnectionId = request.ConnectionId
                     }
                 }
             );
-            return Ok("OK");
+            return Ok(Success.Default());
         }
     }
 }

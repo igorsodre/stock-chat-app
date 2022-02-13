@@ -31,6 +31,9 @@ public class EventProcessor : IEventProcessor
         var command = JsonSerializer.Deserialize<BotCommandDto<GetStockDto>>(message)!;
         var apiResult = await _stockApiService.GetStockCsvStringAsync(command.Data.StockCode);
         var parseCsvResult = _csvStockParser.ParseString(apiResult);
-        await _stockProducer.PublishStockMessage(_resultFormatter.FormatStock(parseCsvResult));
+        await _stockProducer.PublishStockMessage(
+            _resultFormatter.FormatStock(parseCsvResult),
+            command.Data.ConnectionId
+        );
     }
 }

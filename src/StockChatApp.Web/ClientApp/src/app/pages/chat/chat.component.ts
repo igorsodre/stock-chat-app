@@ -1,3 +1,4 @@
+import { CommandService } from './../../services/command.service';
 import { Message } from './../../models/message';
 import { Component, OnInit } from '@angular/core';
 import { DataStoreService } from 'src/app/services/data-store.service';
@@ -13,7 +14,11 @@ export class ChatComponent implements OnInit {
   content = '';
   isChatAvailable = false;
   messages: Message[] = [];
-  constructor(private dataStoreService: DataStoreService, private chatService: ChatService) {
+  constructor(
+    private dataStoreService: DataStoreService,
+    private chatService: ChatService,
+    private commandService: CommandService
+  ) {
     this.userName = this.dataStoreService.getUserName();
   }
 
@@ -30,8 +35,19 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    if (!this.content) return;
-    this.chatService.sendMessage(this.userName, this.content);
+    if (!this.content || !this.chatService.getConnectionId()) return;
+
+    if (this.commandService.IsValidCommand(this.content)) {
+      this.commandService.SendCommand(this.content, this.chatService.getConnectionId())?.subscribe(
+        (_) => {},
+        (_) => {
+          alert('Could not execute the command');
+        }
+      );
+    } else {
+      this.chatService.sendMessage(this.userName, this.content);
+    }
+
     this.clearContent();
   }
 

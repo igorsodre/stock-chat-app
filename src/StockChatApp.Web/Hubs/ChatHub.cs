@@ -20,4 +20,18 @@ public class ChatHub : Hub
             }
         );
     }
+
+    public async Task SendMessageToUser(string connectionId, string userName, string content)
+    {
+        await Clients.Client(connectionId)
+            .SendAsync(
+                "ReceiveMessage",
+                new ChatMessage
+                {
+                    Content = _sanitizer.Sanitize(content),
+                    UserName = _sanitizer.Sanitize(userName),
+                    Timestamp = DateTime.Now
+                }
+            );
+    }
 }
