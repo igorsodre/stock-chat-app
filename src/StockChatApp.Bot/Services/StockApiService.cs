@@ -19,10 +19,10 @@ public class StockApiService : IStockApiService
         var query = QueryString.Create(
             new[]
             {
-                new KeyValuePair<string, string?>("s", stockCode),
-                new KeyValuePair<string, string?>("f", "sd2t2ohlcv"),
-                new KeyValuePair<string, string?>("h", ""),
-                new KeyValuePair<string, string?>("e", "csv"),
+                new KeyValuePair<string, string>("s", stockCode),
+                new KeyValuePair<string, string>("f", "sd2t2ohlcv"),
+                new KeyValuePair<string, string>("h", ""),
+                new KeyValuePair<string, string>("e", "csv"),
             }
         );
 
