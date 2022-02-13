@@ -13,6 +13,7 @@
     <ItemGroup>
         <PackageReference Include="HtmlSanitizer" Version="7.1.475" />
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.1" />
+        <PackageReference Include="RabbitMQ.Client" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>

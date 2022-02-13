@@ -1,4 +1,4 @@
-namespace StockChatApp.Bot.Options;
+namespace StockChatApp.Web.Options;
 
 public class RabbitMqSettings
 {

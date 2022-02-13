@@ -1,6 +1,6 @@
-namespace StockChatApp.Web.Producers;
+namespace StockChatApp.Web.Interfaces;
 
-public interface IProducer
+public interface IProducer<in T> : IDisposable where T : class
 {
-    void ProduceMessage();
+    void ProduceMessage(T content);
 }
