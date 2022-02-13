@@ -15,9 +15,7 @@ export class ChatService {
     return `${this.baseUrl}${this.chatUrl}`;
   }
 
-  constructor(@Inject('BASE_URL') private baseUrl: string) {
-    console.log(this.baseUrl);
-  }
+  constructor(@Inject('BASE_URL') private baseUrl: string) {}
 
   async startChat() {
     if (!this._connection) {
