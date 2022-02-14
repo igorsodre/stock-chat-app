@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DataStoreService {
   private readonly _userNameSource = new BehaviorSubject<string>('');
-  readonly accessToken$ = this._userNameSource.asObservable();
+  readonly userName$ = this._userNameSource.asObservable();
   constructor() {}
 
   getUserName() {

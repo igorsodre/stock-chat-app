@@ -1,4 +1,4 @@
-import { Message } from './../models/message';
+import { IMessage } from './../models/message';
 import { Inject, Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ChatService {
   private chatUrl = 'hubs/chat';
-  private readonly _messageSource = new BehaviorSubject<Message | null>(null);
+  private readonly _messageSource = new BehaviorSubject<IMessage | null>(null);
   readonly message$ = this._messageSource.asObservable();
   private _connection: HubConnection | undefined;
   private get endpoint() {
@@ -40,7 +40,7 @@ export class ChatService {
   }
 
   private addEventListeners() {
-    this._connection?.on('ReceiveMessage', (data: Message) => {
+    this._connection?.on('ReceiveMessage', (data: IMessage) => {
       this._messageSource.next(data);
     });
   }

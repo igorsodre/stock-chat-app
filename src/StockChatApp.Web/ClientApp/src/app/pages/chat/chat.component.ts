@@ -1,8 +1,9 @@
 import { CommandService } from './../../services/command.service';
-import { Message } from './../../models/message';
-import { Component, OnInit } from '@angular/core';
+import { IMessage } from './../../models/message';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataStoreService } from 'src/app/services/data-store.service';
 import { ChatService } from 'src/app/services/chat.service';
+import { ChatMessageService } from 'src/app/services/chat-message.service';
 
 @Component({
   selector: 'app-chat',
@@ -13,16 +14,27 @@ export class ChatComponent implements OnInit {
   userName: string;
   content = '';
   isChatAvailable = false;
-  messages: Message[] = [];
+  messages: IMessage[] = [];
+  private readonly MAX_CHAT_SIZE = 60;
+  @ViewChild('chatHistory') private chatHistory?: ElementRef;
+
   constructor(
     private dataStoreService: DataStoreService,
     private chatService: ChatService,
+    private chatMessageService: ChatMessageService,
     private commandService: CommandService
   ) {
     this.userName = this.dataStoreService.getUserName();
   }
 
   ngOnInit(): void {
+    this.chatMessageService.getMessages().subscribe((reponse) => {
+      this.messages = reponse;
+      setTimeout(() => {
+        this.scrollToBottom();
+      });
+    });
+
     this.chatService
       .startChat()
       .then(() => {
@@ -49,6 +61,7 @@ export class ChatComponent implements OnInit {
     }
 
     this.clearContent();
+    this.scrollToBottom();
   }
 
   isItMe(userName: string) {
@@ -59,10 +72,25 @@ export class ChatComponent implements OnInit {
     this.content = '';
   }
 
+  private scrollToBottom() {
+    this.chatHistory?.nativeElement?.scroll({
+      top: this.chatHistory.nativeElement.scrollHeight,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }
+
   private subscribeToChat() {
     this.chatService.message$.subscribe((message) => {
       if (!message) return;
-      this.messages.push(message);
+      this.addMessage(message);
     });
+  }
+
+  private addMessage(message: IMessage) {
+    if (this.messages.length >= this.MAX_CHAT_SIZE) {
+      this.messages.shift();
+    }
+    this.messages.push(message);
   }
 }
