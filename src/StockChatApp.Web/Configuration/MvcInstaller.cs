@@ -10,9 +10,9 @@ public class MvcInstaller : IServiceInstaller
         IWebHostEnvironment environment
     )
     {
+        var serverSettings = configuration.GetSection("ServerSettings").Get<ServerSettings>();
         if (environment.IsDevelopment())
         {
-            var serverSettings = configuration.GetSection("ServerSettings").Get<ServerSettings>();
             services.AddCors(
                 options => {
                     options.AddDefaultPolicy(
@@ -27,6 +27,7 @@ public class MvcInstaller : IServiceInstaller
             );
         }
 
+        services.AddSingleton(serverSettings);
         services.AddControllers();
         services.AddControllersWithViews();
         services.AddSignalR();

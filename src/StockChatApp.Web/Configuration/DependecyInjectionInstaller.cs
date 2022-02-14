@@ -1,8 +1,10 @@
 using RabbitMQ.Client;
+using StackExchange.Redis;
 using StockChatApp.Web.Contracts.Producers;
 using StockChatApp.Web.Interfaces;
 using StockChatApp.Web.Options;
 using StockChatApp.Web.Producers;
+using StockChatApp.Web.Services;
 
 namespace StockChatApp.Web.Configuration;
 
@@ -17,7 +19,11 @@ public class DependecyInjectionInstaller : IServiceInstaller
         var rabbitMqSettings = new RabbitMqSettings();
         configuration.GetSection("RabbitMqSettings").Bind(rabbitMqSettings);
 
+        var redisSettings = new RedisSettings();
+        configuration.GetSection("RedisSettings").Bind(redisSettings);
+
         services.AddSingleton(rabbitMqSettings);
+        services.AddSingleton(redisSettings);
         services.AddSingleton<IConnectionFactory>(
             provider => {
                 var queueSettings = provider.GetRequiredService<RabbitMqSettings>();
@@ -30,6 +36,11 @@ public class DependecyInjectionInstaller : IServiceInstaller
                 };
             }
         );
+        services.AddSingleton<IConnectionMultiplexer>(
+            x => ConnectionMultiplexer.Connect(redisSettings.ConnectionString)
+        );
+
+        services.AddSingleton<IChatMessageRepository, ChatMessagesRepository>();
         services.AddSingleton<IProducer<CommandDto<StockRequestDto>>, StockRequestProducer>();
     }
 }
