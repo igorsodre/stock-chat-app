@@ -7,22 +7,21 @@ namespace StockChatApp.Bot.Consumers;
 
 public class StockRequestConsumer : BackgroundService
 {
-    private readonly IEventProcessor _eventProcessor;
+    private readonly IEventHandler _eventHandler;
     private readonly IConnection _connection;
     private readonly IModel _channel;
     private readonly string _queueName;
     private const string Exchange = "trigger";
     private const string RoutingKey = "";
 
-    public StockRequestConsumer(IConnectionFactory factory, IEventProcessor eventProcessor)
+    public StockRequestConsumer(IConnectionFactory factory, IEventHandler eventHandler)
     {
-        _eventProcessor = eventProcessor;
+        _eventHandler = eventHandler;
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
         _channel.ExchangeDeclare(Exchange, ExchangeType.Fanout);
         _queueName = _channel.QueueDeclare().QueueName;
         _channel.QueueBind(_queueName, Exchange, RoutingKey);
-
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -32,7 +31,7 @@ public class StockRequestConsumer : BackgroundService
         var consumer = new EventingBasicConsumer(_channel);
         consumer.Received += async (_, eventArgs) => {
             var stringMessage = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-            await _eventProcessor.ProcessEvent(stringMessage);
+            await _eventHandler.ProcessEvent(stringMessage);
         };
 
         _channel.BasicConsume(_queueName, true, consumer);

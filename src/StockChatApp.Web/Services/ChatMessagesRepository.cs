@@ -24,12 +24,7 @@ public class ChatMessagesRepository : IChatMessageRepository
     public async Task PostMessage(ChatMessage message)
     {
         var db = _connectionMultiplexer.GetDatabase();
-        var messagesString = await db.StringGetAsync(MessagesKey);
-        var messagesList = new List<ChatMessage>();
-        if (!messagesString.IsNullOrEmpty)
-        {
-            messagesList = JsonSerializer.Deserialize<List<ChatMessage>>(messagesString);
-        }
+        var messagesList = await GetMessagesList(db);
 
         if (messagesList?.Count >= _serverSettings.MaxMessagesStored)
         {
@@ -43,9 +38,14 @@ public class ChatMessagesRepository : IChatMessageRepository
     public async Task<IEnumerable<ChatMessage>> GetMessages()
     {
         var db = _connectionMultiplexer.GetDatabase();
+        return await GetMessagesList(db);
+    }
+
+    private async Task<List<ChatMessage>> GetMessagesList(IDatabaseAsync db)
+    {
         var messagesString = await db.StringGetAsync(MessagesKey);
         return messagesString.IsNullOrEmpty
             ? new List<ChatMessage>()
-            : JsonSerializer.Deserialize<IList<ChatMessage>>(messagesString);
+            : JsonSerializer.Deserialize<List<ChatMessage>>(messagesString);
     }
 }
