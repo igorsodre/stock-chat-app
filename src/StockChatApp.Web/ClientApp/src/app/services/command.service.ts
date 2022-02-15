@@ -6,7 +6,7 @@ import { Inject, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CommandService {
-  private readonly commandsUrl = 'api/commands/stock';
+  private readonly commandsUrl = 'api/commands';
   private validCommands = ['/stock'];
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
 

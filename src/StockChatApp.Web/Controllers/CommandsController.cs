@@ -10,28 +10,17 @@ namespace StockChatApp.Web.Controllers
     [ApiController]
     public class CommandsController : ControllerBase
     {
-        private readonly IProducer<CommandDto<StockRequestDto>> _producer;
+        private readonly ICommandProcessor _commandProcessor;
 
-        public CommandsController(IProducer<CommandDto<StockRequestDto>> producer)
+        public CommandsController(ICommandProcessor commandProcessor)
         {
-            _producer = producer;
+            _commandProcessor = commandProcessor;
         }
 
-        [HttpPost("stock")]
+        [HttpPost("")]
         public IActionResult PlaceCommand(CommandApiRequest request)
         {
-            _producer.ProduceMessage(
-                new CommandDto<StockRequestDto>()
-                {
-                    Command = request.Command,
-                    Data = new StockRequestDto
-                    {
-                        Channel = "General Chat",
-                        StockCode = request.Arguments,
-                        ConnectionId = request.ConnectionId
-                    }
-                }
-            );
+            _commandProcessor.ProcessCommand(request);
             return Ok(Success.Default());
         }
     }

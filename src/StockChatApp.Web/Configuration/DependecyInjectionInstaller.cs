@@ -41,6 +41,16 @@ public class DependecyInjectionInstaller : IServiceInstaller
         );
 
         services.AddSingleton<IChatMessageRepository, ChatMessagesRepository>();
-        services.AddSingleton<IProducer<CommandDto<StockRequestDto>>, StockRequestProducer>();
+
+        services.Scan(
+            scan => {
+                scan.FromAssemblyOf<Program>()
+                    .AddClasses(classes => classes.AssignableTo(typeof(IProducer)))
+                    .AsSelf()
+                    .WithScopedLifetime();
+            }
+        );
+
+        services.AddScoped<ICommandProcessor, CommandProcessor>();
     }
 }

@@ -6,7 +6,7 @@ using StockChatApp.Web.Interfaces;
 
 namespace StockChatApp.Web.Producers;
 
-public class StockRequestProducer : IProducer<CommandDto<StockRequestDto>>
+public class StockRequestProducer : IProducer
 {
     private readonly ILogger<StockRequestProducer> _logger;
     private readonly IConnection _connection;
@@ -31,11 +31,22 @@ public class StockRequestProducer : IProducer<CommandDto<StockRequestDto>>
         }
     }
 
-    public void ProduceMessage(CommandDto<StockRequestDto> content)
+    public void ProduceMessage(string arguments, string connectionId)
     {
         if (_connection.IsOpen)
         {
-            var message = JsonSerializer.Serialize(content);
+            var message = JsonSerializer.Serialize(
+                new CommandDto<StockRequestDto>()
+                {
+                    Command = "/stock",
+                    Data = new StockRequestDto
+                    {
+                        Channel = "General Chat",
+                        StockCode = arguments,
+                        ConnectionId = connectionId
+                    }
+                }
+            );
             var messageBytes = Encoding.UTF8.GetBytes(message);
             _channel.BasicPublish(Exchange, RoutingKey, null, messageBytes);
         }
