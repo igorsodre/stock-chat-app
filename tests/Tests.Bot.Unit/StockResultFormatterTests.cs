@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using FluentAssertions;
 using StockChatApp.Bot.Models;
 using StockChatApp.Bot.Services;

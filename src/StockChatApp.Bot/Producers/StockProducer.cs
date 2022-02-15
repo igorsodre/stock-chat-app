@@ -1,8 +1,4 @@
-using System.Text;
-using System.Text.Json;
 using Microsoft.AspNetCore.SignalR.Client;
-using RabbitMQ.Client;
-using StockChatApp.Bot.Models;
 using StockChatApp.Bot.Options;
 
 namespace StockChatApp.Bot.Producers;

@@ -1,5 +1,4 @@
 using StockChatApp.Web.Contracts.Api.Requests;
-using StockChatApp.Web.Contracts.Producers;
 using StockChatApp.Web.Interfaces;
 using StockChatApp.Web.Producers;
 

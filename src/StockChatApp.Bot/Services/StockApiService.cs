@@ -1,7 +1,4 @@
-using System.Net;
 using StockChatApp.Bot.Interfaces;
-using StockChatApp.Bot.Models;
-using StockChatApp.Bot.Options;
 
 namespace StockChatApp.Bot.Services;
 

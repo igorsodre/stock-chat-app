@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StockChatApp.Web.Contracts.Api.Requests;
 using StockChatApp.Web.Contracts.Api.Responses;
-using StockChatApp.Web.Contracts.Producers;
 using StockChatApp.Web.Interfaces;
 
 namespace StockChatApp.Web.Controllers

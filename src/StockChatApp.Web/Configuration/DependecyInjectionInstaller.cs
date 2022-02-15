@@ -1,9 +1,7 @@
 using RabbitMQ.Client;
 using StackExchange.Redis;
-using StockChatApp.Web.Contracts.Producers;
 using StockChatApp.Web.Interfaces;
 using StockChatApp.Web.Options;
-using StockChatApp.Web.Producers;
 using StockChatApp.Web.Services;
 
 namespace StockChatApp.Web.Configuration;

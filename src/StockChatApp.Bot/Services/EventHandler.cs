@@ -1,9 +1,6 @@
 using System.Text.Json;
 using StockChatApp.Bot.Interfaces;
-using StockChatApp.Bot.Models;
 using StockChatApp.Bot.Models.Commands;
-using StockChatApp.Bot.Options;
-using StockChatApp.Bot.Producers;
 
 namespace StockChatApp.Bot.Services;
 
