@@ -35,7 +35,11 @@ public class DependecyInjectionInstaller : IServiceInstaller
             }
         );
         services.AddSingleton<IConnectionMultiplexer>(
-            x => ConnectionMultiplexer.Connect(redisSettings.ConnectionString)
+            x => ConnectionMultiplexer.Connect(redisSettings.ConnectionString,
+                options => {
+                    options.ConnectRetry = 10;
+                    options.AbortOnConnectFail = false;
+                })
         );
 
         services.AddSingleton<IChatMessageRepository, ChatMessagesRepository>();

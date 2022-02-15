@@ -19,7 +19,7 @@ services:
       - 'rabbitmq_data:/bitnami/rabbitmq/mnesia'
     networks:
       - stock-chat-app
-    
+  
   redis:
     image: docker.io/bitnami/redis:6.2
     environment:
@@ -28,6 +28,32 @@ services:
       - '6379:6379'
     volumes:
       - 'redis_data:/bitnami/redis/data'
+    networks:
+      - stock-chat-app
+  
+  stock-chat-app-bot:
+    build:
+      context: .
+      dockerfile: src/StockChatApp.Bot/Dockerfile
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    networks:
+      - stock-chat-app
+
+  stock-chat-app-web:
+    build:
+      context: .
+      dockerfile: src/StockChatApp.Web/Dockerfile
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+      - redis
+    ports:
+      - "5076:80"
+      - "7159:443"
+    networks:
+      - stock-chat-app
 
 volumes:
   rabbitmq_data:
