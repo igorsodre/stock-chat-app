@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Options;
 using StockChatApp.Bot.Options;
 
 namespace StockChatApp.Bot.Producers;
@@ -7,10 +8,10 @@ public class StockProducer
 {
     private readonly HubConnection _connection;
 
-    public StockProducer(HubSettings hubSettings)
+    public StockProducer(IOptions<HubSettings> hubSettings)
     {
         _connection = new HubConnectionBuilder().WithUrl(
-                $"{hubSettings.BaseUrl}/hubs/chat",
+                $"{hubSettings.Value.BaseUrl}/hubs/chat",
                 options => {
                     options.HttpMessageHandlerFactory = handler => {
                         if (handler is HttpClientHandler clientHandler)
