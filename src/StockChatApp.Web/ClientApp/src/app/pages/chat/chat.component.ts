@@ -14,6 +14,7 @@ export class ChatComponent implements OnInit {
   userName: string;
   content = '';
   isChatAvailable = false;
+  scrollOnReceiveMessage = true;
   messages: IMessage[] = [];
   private readonly MAX_CHAT_SIZE = 60;
   @ViewChild('chatHistory') private chatHistory?: ElementRef;
@@ -61,11 +62,15 @@ export class ChatComponent implements OnInit {
     }
 
     this.clearContent();
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
 
   isItMe(userName: string) {
     return userName === this.userName;
+  }
+
+  toggleScrollWhenReceiveMessage() {
+    this.scrollOnReceiveMessage = !this.scrollOnReceiveMessage;
   }
 
   private clearContent() {
@@ -74,7 +79,7 @@ export class ChatComponent implements OnInit {
 
   private scrollToBottom() {
     this.chatHistory?.nativeElement?.scroll({
-      top: this.chatHistory.nativeElement.scrollHeight,
+      top: this.chatHistory.nativeElement.scrollHeight * 2,
       left: 0,
       behavior: 'smooth',
     });
@@ -92,5 +97,10 @@ export class ChatComponent implements OnInit {
       this.messages.shift();
     }
     this.messages.push(message);
+    if (this.scrollOnReceiveMessage) {
+      setTimeout(() => {
+        this.scrollToBottom();
+      });
+    }
   }
 }
